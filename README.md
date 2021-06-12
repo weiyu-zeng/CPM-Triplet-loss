@@ -106,7 +106,7 @@ python3 demo.py \
 ```
 
 ## Experiments
-Please select CPM-Triplet loss and Triplet loss in ```base.py```.
+Please select CPM-Triplet loss and Triplet loss in ```core/base.py```.
 
 
 
