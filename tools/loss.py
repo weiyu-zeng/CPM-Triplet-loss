@@ -124,9 +124,6 @@ class TripletLoss(RankingLoss):
 
 class PM_Triplet(RankingLoss):
 	'''
-	！！最终版！！
-	余弦值转化为弧度制
-
 	Compute Triplet loss augmented with Batch Hard
 	Details can be seen in 'In defense of the Triplet Loss for Person Re-Identification'
 	'''
@@ -155,8 +152,8 @@ class PM_Triplet(RankingLoss):
 		cos_dist = cosine_dist(emb1, emb2)
 		cos_dist = torch.acos(torch.clamp(cos_dist, -1 + 1e-7, 1 - 1e-7))
 		mat_sim = self._label2similarity(label1, label2)
-		hard_p, _ = self._batch_hard(cos_dist, mat_sim.float(), more_similar='larger')  # 相似度最小的正样本对(难样本)
-
+		hard_p, _ = self._batch_hard(cos_dist, mat_sim.float(), more_similar='larger')
+		
 		cos_dist = cosine_dist(emb1, emb3)
 		cos_dist = torch.acos(torch.clamp(cos_dist, -1 + 1e-7, 1 - 1e-7))
 		mat_sim = self._label2similarity(label1, label3)
@@ -175,7 +172,7 @@ class PM_Triplet(RankingLoss):
 
 		margin_label = torch.ones_like(hard_p)
 		euc_loss = self.margin_loss(hard_n, hard_p, margin_label)
-		loss = 1.0 * euc_loss + self.beta * cos_loss  #########################################################################
+		loss = 1.0 * euc_loss + self.beta * cos_loss
 		return loss
 
 
@@ -231,7 +228,6 @@ class CPM_Triplet(nRankingLoss_1):
 
 	def hard_sigmoid_post(self, x, c=12):
 		"""
-		用于单个数
 		post_dist: c=12
 		post_neighbor: c=3
 		"""
@@ -256,7 +252,7 @@ class CPM_Triplet(nRankingLoss_1):
 		cos_dist = cosine_dist(emb1, emb2)
 		cos_dist = torch.acos(torch.clamp(cos_dist, -1 + 1e-7, 1 - 1e-7))
 		mat_sim = self._label2similarity(label1, label2)
-		hard_p, _ = self._batch_hard(cos_dist, mat_sim.float(), more_similar='larger')  # 相似度最小的正样本对(难样本)
+		hard_p, _ = self._batch_hard(cos_dist, mat_sim.float(), more_similar='larger')
 
 		cos_dist = cosine_dist(emb1, emb3)
 		cos_dist = torch.acos(torch.clamp(cos_dist, -1 + 1e-7, 1 - 1e-7))
